@@ -37,22 +37,22 @@ public class Walker {
     int direction = rnd.nextInt(4);
     
     switch (direction) {
-    case 0:
+    case 0: // moving left
       position.add(-cellSize, 0);
       if (position.x < 0) position.set(width - 1 - cellSize, position.y);
       break;
       
-    case 1:
+    case 1: // moving up
       position.add(0, -cellSize);
       if (position.y < 0) position.set(position.x, height - 1 - cellSize);
       break;
       
-    case 2:
+    case 2: // moving right
       position.add(cellSize, 0);
       if (position.x >= width) position.set(0, position.y);
       break;
       
-    case 3:
+    case 3: // moving down
       position.add(0, cellSize);
       if (position.y >= height) position.set(position.x, 0); 
     }
