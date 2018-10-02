@@ -1,14 +1,18 @@
-Walker walker;
+import java.util.ArrayList;
+
+ArrayList<Walker> walkers = new ArrayList<Walker>();
 
 void setup() {
-  size(400, 400);
+  size(600, 600);
   background(255, 255, 255);
   
   frameRate(10000);
   
-  walker = new Walker(5);
+  for (int i = 0; i < 40; i++)
+    walkers.add(new Walker());
 }
 
 void draw() {
-  walker.walk();
+  for (Walker walker : walkers)
+    walker.walk();
 }

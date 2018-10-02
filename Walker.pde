@@ -2,73 +2,60 @@ import java.util.Random;
 
 public class Walker {
   
-  private final Random rnd;
+  private final Random rnd = new Random();
   private PVector position;
-  private int cellSize;
+  private final color walkerColor;
+  private final int cellSize;
   
   public Walker() {
-    rnd = new Random();
-    position = new PVector(rnd.nextInt(width), rnd.nextInt(height));
+    this.position = new PVector(rnd.nextInt(width), rnd.nextInt(height));
+    this.walkerColor = color(rnd.nextInt(255), rnd.nextInt(255), rnd.nextInt(255));
     
     this.cellSize = 1;
   }
   
-  public Walker(int cellSize) {
-    rnd = new Random();
-    position = new PVector(rnd.nextInt(width), rnd.nextInt(height));
+  public Walker(color walkerColor, int cellSize) {
+    this.position = new PVector(rnd.nextInt(width), rnd.nextInt(height));
+    this.walkerColor = walkerColor;
     
-    this.cellSize = cellSize;
+    if (cellSize < 1) 
+      this.cellSize = 1;
+    else
+      this.cellSize = cellSize;
   }
   
   public void walk() {
-    int direction = rnd.nextInt(4);
+    noStroke();
+    fill(walkerColor);
     
-    fill(0);
+    changePosition();
+    
+    rect(position.x, position.y, cellSize, cellSize);
+  }
+  
+  private void changePosition() {
+    int direction = rnd.nextInt(4);
     
     switch (direction) {
     case 0:
-      moveLeft();
+      position.add(-cellSize, 0);
+      if (position.x < 0) position.set(width - 1 - cellSize, position.y);
       break;
+      
     case 1:
-      moveUp();
+      position.add(0, -cellSize);
+      if (position.y < 0) position.set(position.x, height - 1 - cellSize);
       break;
+      
     case 2:
-      moveRight();
+      position.add(cellSize, 0);
+      if (position.x >= width) position.set(0, position.y);
       break;
+      
     case 3:
-      moveDown();
+      position.add(0, cellSize);
+      if (position.y >= height) position.set(position.x, 0); 
     }
   }
   
-  public void moveLeft() {
-    position.add(-cellSize, 0);
-    
-    if (position.x < 0) position.set(width - 1 - cellSize, position.y);
-    
-    rect(position.x, position.y, cellSize, cellSize);
-  }
-  
-  public void moveUp() {
-    position.add(0, -cellSize);
-    
-    if (position.y < 0) position.set(position.x, height - 1 - cellSize);
-    
-    rect(position.x, position.y, cellSize, cellSize);
-  }
-  
-  public void moveRight() {
-    position.add(cellSize, 0);
-    
-    if (position.x >= width) position.set(0, position.y);
-    
-    rect(position.x, position.y, cellSize, cellSize);
-  }
-  
-  public void moveDown() {
-    position.add(0, cellSize);
-    
-    if (position.y >= height) position.set(position.x, 0); 
-    
-    rect(position.x, position.y, cellSize, cellSize);
-  }
 }
